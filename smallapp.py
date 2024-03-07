@@ -15,7 +15,7 @@ health_canada_base_url = "https://health-products.canada.ca/dpd-bdpp/index-eng.j
 # Function to set up a WebDriver
 def setup_driver():
     chrome_options = Options()
-    #chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
     return webdriver.Chrome(options=chrome_options)
 def search_drugbank(query, results):
