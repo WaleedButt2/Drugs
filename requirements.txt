@@ -3,3 +3,5 @@ bs4
 requests
 streamlit
 webdriver_manager
+undetected_chromedriver
+undetected-chromedriver
