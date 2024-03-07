@@ -19,7 +19,7 @@ def setup_driver():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install(),options=chrome_options)
+    return webdriver.Chrome(service=Service(ChromeDriverManager().install(),options=chrome_options))
 def search_drugbank(query, results):
     driver = setup_driver()
     driver.get("https://go.drugbank.com/releases/latest")
