@@ -8,7 +8,12 @@ import threading
 import streamlit.components.v1 as components
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+from selenium.webdriver.chrome.service import Service
 import requests
+import undetected_chromedriver as uc
+from selenium.webdriver.chrome.options import Options
+
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 drugbank_base_url = "https://go.drugbank.com/drugs/"
 health_canada_base_url = "https://health-products.canada.ca/dpd-bdpp/index-eng.jsp"
@@ -16,8 +21,11 @@ health_canada_base_url = "https://health-products.canada.ca/dpd-bdpp/index-eng.j
 def setup_driver():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--disable-gpu')
-    return webdriver.Chrome(options=chrome_options)
+    driver = uc.Chrome(options=chrome_options)
+    return driver
 def search_drugbank(query, results):
     driver = setup_driver()
     driver.get("https://go.drugbank.com/releases/latest")
