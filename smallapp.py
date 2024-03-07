@@ -47,23 +47,18 @@ def search_drugbank(query, results):
         "Protein Chemical Formula": chemical_Formula
     }
 def fetch_and_display_content(url):
-    st.write(f"Fetching content from URL: {url}") 
-    response = requests.get(url)
+    response = requests.get('https://health-products.canada.ca' + url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    
-    # Extract specific information as an example
-    product_name = soup.find('div', text='Product name:').find_next_sibling('p').text
-    current_status = soup.find('div', text='Current status:').find_next_sibling('p').text
-    company = soup.find('div', text='Company:').find_next_sibling('p').text
-    dosage_form = soup.find('div', text='Dosage form(s):').find_next_sibling('p').text
-    
-    # Display the extracted information
-    st.write(f"**Product Name:** {product_name}")
-    st.write(f"**Current Status:** {current_status}")
-    st.write(f"**Company:** {company}")
-    st.write(f"**Dosage Form(s):** {dosage_form}")
-    
-    
+    labels = soup.find_all('p', class_='col-sm-4')
+
+    # Skip the first one and display the rest
+    for label in labels[1:]:
+        # Find the next <p> element which contains the actual information
+        value = label.find_next('p')
+
+        # Check if the value element exists and display its content
+        if value:
+            st.write(f"{label.text.strip()}: {value.text.strip()}")
 
 def search_dpd(product, din, results):
     driver = setup_driver()
@@ -160,7 +155,7 @@ if st.button("Search"):
 # Outside the loop, check if content should be fetched and displayed
 if st.session_state.clicked_button_id is not None:
     button_index = next(index for index, link in enumerate(links) if st.session_state.clicked_button_id in link)
-    fetch_and_display_content('https://health-products.canada.ca/'+links[button_index])
+    fetch_and_display_content(links[button_index])
     st.session_state.clicked_button_id = None
 
 
